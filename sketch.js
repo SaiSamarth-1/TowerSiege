@@ -13,9 +13,10 @@ var boxxxx1;
 var bo1, bo2, bo3, bo4, bo5;
 var b1, b2, b3;
 var b4;
+var polygon, slingShot, polygon_img;
 
 function preload() {
-
+    polygon_img = loadImage("polygon.png");
 }
 
 function setup() {
@@ -59,6 +60,10 @@ function setup() {
     b3 = new Box(730, 240, 30, 50);
     b4 = new Box(700, 190, 30, 50);
 
+    polygon = new Bodies.circle(50, 200, 20);
+    World.add(world, polygon)
+
+    slingShot = new SlingShot(this.polygon, {x:100, y:200});
 
 }
 
@@ -101,4 +106,17 @@ function draw() {
     
     textSize(22);
     text('Drag the hexagonal stone and release it, to launch towards the blocks', 0, 200);
+
+    imageMode(CENTER);
+    image(polygon_img, polygon.position.x, polygon.position.y, 40, 40);
+
+    slingShot.display();
+}
+
+function mouseDragged() {
+    Body.setPosition(this.polygon, {x:mouseX, y:mouseY});
+}
+
+function mouseReleased() {
+    slingShot.fly();
 }
